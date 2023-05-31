@@ -1,0 +1,104 @@
+
+# Limpieza de Datos con Pandas y NumPy
+
+La limpieza de datos es una parte crucial en el proceso de análisis de datos. Pandas y NumPy son herramientas poderosas para llevar a cabo esta tarea.
+
+## Instalación de Pandas y NumPy
+
+Para instalar pandas y NumPy, puedes utilizar pip:
+
+```python
+pip install pandas numpy
+```
+
+## Importando Pandas y NumPy
+
+Una vez instalados, debes importar pandas y NumPy en tu script de Python.
+
+```python
+import pandas as pd
+import numpy as np
+```
+
+## Cargando los datos
+
+Vamos a cargar el conjunto de datos 'train.csv' del concurso Titanic de Kaggle.
+
+```python
+df = pd.read_csv('train.csv')
+```
+
+## Inspeccionando los Datos
+
+Primero, echemos un vistazo a los primeros registros en el DataFrame.
+
+```python
+df.head()
+```
+
+Y también veamos un resumen de los datos.
+
+```python
+df.describe()
+```
+
+## Valores Perdidos
+
+Uno de los problemas más comunes en los conjuntos de datos son los valores perdidos. Podemos comprobar si existen valores perdidos en nuestro DataFrame.
+
+```python
+df.isnull().sum()
+```
+
+## Manejo de Valores Perdidos
+
+Existen varias estrategias para manejar los valores perdidos, dos de las más comunes son eliminar los registros o llenarlos con algún valor.
+
+### Eliminar registros con valores perdidos
+
+```python
+df = df.dropna()
+```
+
+### Llenar valores perdidos con la mediana
+
+```python
+df = df.fillna(df.median())
+```
+
+## Conversión de Tipos de Datos
+
+A veces, es necesario convertir el tipo de datos de una columna. Por ejemplo, podríamos querer convertir la columna 'Survived' a boolean.
+
+```python
+df['Survived'] = df['Survived'].astype(bool)
+```
+
+## Eliminación de Columnas
+
+Puede que no todas las columnas sean útiles para nuestro análisis. Por ejemplo, podríamos querer eliminar la columna 'Cabin' si decidimos que no es relevante.
+
+```python
+df = df.drop(columns=['Cabin'])
+```
+
+## Detección de Outliers
+
+Los outliers son valores que son significativamente diferentes de los demás. Un método común para detectar outliers es el método del rango intercuartílico (IQR).
+
+```python
+Q1 = df.quantile(0.25)
+Q3 = df.quantile(0.75)
+IQR = Q3 - Q1
+outliers = (df < (Q1 - 1.5 * IQR)) | (df > (Q3 + 1.5 * IQR))
+```
+
+## Manejo de Outliers
+
+Una vez detectados los outliers, podríamos querer eliminarlos.
+
+```python
+df = df[~outliers.any(axis=1)]
+```
+
+¡Y eso es todo! Ahora tienes una idea de cómo limpiar datos con pandas y NumPy. Recuerda que estos son solo los conceptos básicos. Hay muchas otras técnicas de limpieza de datos que podrías necesitar, dependiendo de tu conjunto de datos y tu objetivo.
